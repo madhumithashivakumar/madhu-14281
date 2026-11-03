@@ -1,0 +1,19 @@
+{
+  "name": "tiertracker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "TierTracker: Enterprise-Grade 3D Event Operations & Spatial Attendance Platform",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test tests/domain.test.js tests/infra.test.js",
+    "test:domain": "node --test tests/domain.test.js",
+    "test:infra": "node --test tests/infra.test.js",
+    "test:playwright": "node tests/browser-e2e.js",
+    "test:cypress": "cypress run --headless"
+  },
+  "devDependencies": {
+    "cypress": "^16.2.1",
+    "playwright": "^1.64.1"
+  }
+}

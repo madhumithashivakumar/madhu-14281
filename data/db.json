@@ -1,0 +1,691 @@
+{
+  "events": [
+    {
+      "id": "event-dsu-main",
+      "name": "Dayananda Sagar University - Main Campus",
+      "venue": "DSU Main Campus, Kanakapura Road, Harohalli, Bengaluru, Karnataka 562112",
+      "coordinates": {
+        "lat": 12.6606692,
+        "lng": 77.4508399
+      },
+      "startDate": "2026-11-02",
+      "endDate": "2026-11-06",
+      "isActive": false
+    },
+    {
+      "id": "event-dsu-kudlu",
+      "name": "DSU Kudlu Gate Campus (Innovation Hub)",
+      "venue": "Hosur Road, Kudlu Gate, Bengaluru, Karnataka 560068",
+      "coordinates": {
+        "lat": 12.8916,
+        "lng": 77.6416
+      },
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-17",
+      "isActive": true
+    },
+    {
+      "id": "event-dsu-kumaraswamy",
+      "name": "Dayananda Sagar Institutions (Kumaraswamy Layout)",
+      "venue": "Shavige Malleshwara Hills, Kumaraswamy Layout, Bengaluru 560078",
+      "coordinates": {
+        "lat": 12.9081,
+        "lng": 77.5668
+      },
+      "startDate": "2026-12-01",
+      "endDate": "2026-12-03",
+      "isActive": false
+    }
+  ],
+  "zones": [
+    {
+      "id": "zone-dsu-soe",
+      "name": "DSU School of Engineering (Block A)",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.661172,
+            "lng": 77.450101
+          },
+          {
+            "lat": 12.662452,
+            "lng": 77.450101
+          },
+          {
+            "lat": 12.662452,
+            "lng": 77.450817
+          },
+          {
+            "lat": 12.661172,
+            "lng": 77.450817
+          }
+        ]
+      },
+      "elevationMeters": 24.5,
+      "capacity": 1500,
+      "accessTier": "PUBLIC",
+      "category": "Academic Blocks",
+      "x": -41.3,
+      "y": 127,
+      "width": 77.6,
+      "depth": 142.3
+    },
+    {
+      "id": "zone-dsu-cdsimer",
+      "name": "Dr. Chandramma DSU Medical Hospital (Block B)",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.659878,
+            "lng": 77.449178
+          },
+          {
+            "lat": 12.660723,
+            "lng": 77.449178
+          },
+          {
+            "lat": 12.660723,
+            "lng": 77.450272
+          },
+          {
+            "lat": 12.659878,
+            "lng": 77.450272
+          }
+        ]
+      },
+      "elevationMeters": 17.5,
+      "capacity": 2000,
+      "accessTier": "RESTRICTED",
+      "category": "Healthcare & CDSIMER",
+      "x": -120.9,
+      "y": -41,
+      "width": 118.6,
+      "depth": 93.9
+    },
+    {
+      "id": "zone-dsu-healthsci",
+      "name": "School of Health Sciences & Nursing",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.658704,
+            "lng": 77.449303
+          },
+          {
+            "lat": 12.659323,
+            "lng": 77.449303
+          },
+          {
+            "lat": 12.659323,
+            "lng": 77.449885
+          },
+          {
+            "lat": 12.658704,
+            "lng": 77.449885
+          }
+        ]
+      },
+      "elevationMeters": 11.5,
+      "capacity": 600,
+      "accessTier": "PUBLIC",
+      "category": "Healthcare & CDSIMER",
+      "x": -135.1,
+      "y": -184,
+      "width": 63.1,
+      "depth": 68.8
+    },
+    {
+      "id": "zone-dsu-pharmacy",
+      "name": "Department of Pharmacy",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.65934,
+            "lng": 77.452103
+          },
+          {
+            "lat": 12.660238,
+            "lng": 77.452103
+          },
+          {
+            "lat": 12.660238,
+            "lng": 77.452638
+          },
+          {
+            "lat": 12.65934,
+            "lng": 77.452638
+          }
+        ]
+      },
+      "elevationMeters": 16,
+      "capacity": 500,
+      "accessTier": "PUBLIC",
+      "category": "Academic Blocks",
+      "x": 166,
+      "y": -97.8,
+      "width": 58,
+      "depth": 99.8
+    },
+    {
+      "id": "zone-dsu-mechanical",
+      "name": "Mechanical Engineering & Research Labs",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.662018,
+            "lng": 77.451727
+          },
+          {
+            "lat": 12.662369,
+            "lng": 77.451727
+          },
+          {
+            "lat": 12.662369,
+            "lng": 77.452088
+          },
+          {
+            "lat": 12.662018,
+            "lng": 77.452088
+          }
+        ]
+      },
+      "elevationMeters": 15,
+      "capacity": 400,
+      "accessTier": "PUBLIC",
+      "category": "Academic Blocks",
+      "x": 115.8,
+      "y": 169.4,
+      "width": 39.1,
+      "depth": 39
+    },
+    {
+      "id": "zone-dsu-amphitheater",
+      "name": "Dr. Premachandra Sagar Open Amphitheater",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.662017,
+            "lng": 77.450415
+          },
+          {
+            "lat": 12.663025,
+            "lng": 77.450415
+          },
+          {
+            "lat": 12.663025,
+            "lng": 77.45154
+          },
+          {
+            "lat": 12.662017,
+            "lng": 77.45154
+          }
+        ]
+      },
+      "elevationMeters": 8,
+      "capacity": 2500,
+      "accessTier": "PUBLIC",
+      "category": "Auditoriums & Arenas",
+      "x": 14.9,
+      "y": 205.8,
+      "width": 122,
+      "depth": 112
+    },
+    {
+      "id": "zone-dsu-sports",
+      "name": "DSU Sports Complex & Cricket Ground",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.661176,
+            "lng": 77.454409
+          },
+          {
+            "lat": 12.66201,
+            "lng": 77.454409
+          },
+          {
+            "lat": 12.66201,
+            "lng": 77.455266
+          },
+          {
+            "lat": 12.661176,
+            "lng": 77.455266
+          }
+        ]
+      },
+      "elevationMeters": 4,
+      "capacity": 1000,
+      "accessTier": "PUBLIC",
+      "category": "Sports & Recreation",
+      "x": 433.5,
+      "y": 102.7,
+      "width": 92.9,
+      "depth": 92.7
+    },
+    {
+      "id": "zone-dsu-foodcourt",
+      "name": "Student Food Court & Tummy Trails",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.662254,
+            "lng": 77.451637
+          },
+          {
+            "lat": 12.662558,
+            "lng": 77.451637
+          },
+          {
+            "lat": 12.662558,
+            "lng": 77.451904
+          },
+          {
+            "lat": 12.662254,
+            "lng": 77.451904
+          }
+        ]
+      },
+      "elevationMeters": 6,
+      "capacity": 350,
+      "accessTier": "PUBLIC",
+      "category": "Student Amenities",
+      "x": 100.9,
+      "y": 193,
+      "width": 30,
+      "depth": 33.8
+    },
+    {
+      "id": "zone-dsu-hostels",
+      "name": "S-Residency Student Living & Hostels",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.657326,
+            "lng": 77.447029
+          },
+          {
+            "lat": 12.658571,
+            "lng": 77.447029
+          },
+          {
+            "lat": 12.658571,
+            "lng": 77.448222
+          },
+          {
+            "lat": 12.657326,
+            "lng": 77.448222
+          }
+        ]
+      },
+      "elevationMeters": 22,
+      "capacity": 1200,
+      "accessTier": "RESTRICTED",
+      "category": "Student Amenities",
+      "x": -348.6,
+      "y": -302.4,
+      "width": 129.4,
+      "depth": 138.4
+    },
+    {
+      "id": "zone-dsu-gate1",
+      "name": "Gate 1 - Main Entrance (Kanakapura Rd)",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.6629,
+            "lng": 77.4507
+          },
+          {
+            "lat": 12.66335,
+            "lng": 77.4507
+          },
+          {
+            "lat": 12.66335,
+            "lng": 77.4512
+          },
+          {
+            "lat": 12.6629,
+            "lng": 77.4512
+          }
+        ]
+      },
+      "elevationMeters": 5,
+      "capacity": 200,
+      "accessTier": "PUBLIC",
+      "category": "Campus Access & Gates",
+      "x": 11.9,
+      "y": 272.9,
+      "width": 54.2,
+      "depth": 50
+    },
+    {
+      "name": "AI Quantum Lab",
+      "boundary": {
+        "vertices": [
+          {
+            "lat": 12.66145,
+            "lng": 77.45025
+          },
+          {
+            "lat": 12.66175,
+            "lng": 77.45025
+          },
+          {
+            "lat": 12.66175,
+            "lng": 77.45055
+          },
+          {
+            "lat": 12.66145,
+            "lng": 77.45055
+          }
+        ]
+      },
+      "category": "Academic Blocks",
+      "elevationMeters": 20,
+      "capacity": 120,
+      "accessTier": "PUBLIC",
+      "x": 0,
+      "y": -180,
+      "width": 35,
+      "depth": 25,
+      "type": "hall",
+      "id": "zone-1793641357105"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session-1",
+      "zoneId": "zone-dsu-soe",
+      "title": "AI & Robotics Symposium: Autonomous Systems in Industry 4.0",
+      "speaker": "Dr. A. Vinay Kumar",
+      "speakerRole": "Dean, School of Engineering, DSU",
+      "startTimeMs": 1730548800000,
+      "endTimeMs": 1793692429594,
+      "status": "ENDED",
+      "ratings": [
+        {
+          "deviceId": "dev-dsu-1",
+          "stars": 5,
+          "comment": "Outstanding spatial mapping and robotics research!",
+          "createdAtMs": 1730550000000
+        },
+        {
+          "deviceId": "dev-dsu-2",
+          "stars": 5,
+          "comment": "Inspiring vision for DSU engineering students.",
+          "createdAtMs": 1730551200000
+        },
+        {
+          "deviceId": "85463a76-bd63-4ee5-9726-4b44eea6a7d8",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793640439623
+        },
+        {
+          "deviceId": "e1cc2110-2f1d-4197-9195-c567a8bb48e2",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793640532174
+        },
+        {
+          "deviceId": "ec5c88d9-3c96-4910-b948-198ff521383e",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793641369598
+        },
+        {
+          "deviceId": "4d97a5c4-9d27-443a-bed8-f9d417ef2e65",
+          "stars": 5,
+          "comment": "Cypress Automated Audit Review: Excellent session! [✨ Inspiring]",
+          "createdAtMs": 1793641925453
+        },
+        {
+          "deviceId": "9b068e86-0141-4f26-a68e-4ebbcc2d94d5",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793641956331
+        },
+        {
+          "deviceId": "72e4d83f-096a-4728-8d22-08193fc8a50f",
+          "stars": 5,
+          "comment": "Cypress Automated Audit Review: Excellent session! [✨ Inspiring]",
+          "createdAtMs": 1793649924210
+        },
+        {
+          "deviceId": "22facac3-dec7-4a12-ac1f-99cb7ef8ca33",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793649964632
+        },
+        {
+          "deviceId": "65c774ec-1152-4718-bc17-643f17bc2c0b",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793684771059
+        },
+        {
+          "deviceId": "e2fa00c6-e10b-41c2-89bb-7ae11430e2a2",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793688139778
+        }
+      ],
+      "averageRating": 5,
+      "updatedAtMs": 1793688125364,
+      "actualEndTimeMs": 1793668027721
+    },
+    {
+      "id": "session-2",
+      "zoneId": "zone-dsu-cdsimer",
+      "title": "Clinical Grand Rounds: Advanced Medical Imaging & Diagnostics",
+      "speaker": "Dr. C.D. Sagar",
+      "speakerRole": "Director, CDSIMER Medical Sciences",
+      "startTimeMs": 1730550000000,
+      "endTimeMs": 1793648000000,
+      "status": "ENDED",
+      "ratings": [
+        {
+          "deviceId": "dev-dsu-3",
+          "stars": 5,
+          "comment": "State-of-the-art hospital infrastructure insights.",
+          "createdAtMs": 1730552400000
+        }
+      ],
+      "averageRating": 5,
+      "updatedAtMs": 1793650709123,
+      "actualEndTimeMs": 1793650709123
+    },
+    {
+      "id": "session-3",
+      "zoneId": "zone-dsu-amphitheater",
+      "title": "DSU Annual Hackathon 2026: Spatial Computing Showcase",
+      "speaker": "Innovation & Incubation Cell",
+      "speakerRole": "AIC-DSU Foundation",
+      "startTimeMs": 1730560000000,
+      "endTimeMs": 1730567200000,
+      "status": "UPCOMING",
+      "ratings": [
+        {
+          "deviceId": "741e9801-2431-45d8-aa46-99047abf8ffe",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793679352597
+        },
+        {
+          "deviceId": "9afdd90f-308e-4e49-8da0-1c244d188aed",
+          "stars": 5,
+          "comment": "Outstanding architecture presentation! [✨ Inspiring]",
+          "createdAtMs": 1793685892430
+        }
+      ],
+      "averageRating": 5
+    },
+    {
+      "id": "session-4",
+      "zoneId": "zone-dsu-pharmacy",
+      "title": "Pharmaceutical Sciences: Nanomedicine & Drug Delivery",
+      "speaker": "Dr. M. Sreenivasan",
+      "speakerRole": "Head of Department, Pharmacy",
+      "startTimeMs": 1730563600000,
+      "endTimeMs": 1730570800000,
+      "status": "UPCOMING",
+      "ratings": [],
+      "averageRating": 0
+    }
+  ],
+  "alerts": [
+    {
+      "id": "alert-1",
+      "title": "Campus Transportation Advisory",
+      "message": "Shuttle Bus service active from Gate 1 to Silk Institute Metro Station. Next departure in 15 mins.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1730548800000,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793641358324",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793641358325,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793641921388",
+      "title": "Campus Keynote Starting",
+      "message": "Please proceed to Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793641921388,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793641943206",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793641943206,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793649920076",
+      "title": "Campus Keynote Starting",
+      "message": "Please proceed to Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793649920076,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793649954063",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793649954063,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793679320621",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793679320621,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793683433491",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793683433491,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793683546411",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793683546411,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793683923120",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793683923120,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793684096706",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793684096706,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793684201339",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793684201339,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793684300415",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793684300415,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793684468729",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793684468729,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793684750742",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793684750742,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793685851868",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793685851868,
+      "isActive": true
+    },
+    {
+      "id": "alert-1793688129279",
+      "title": "Academic Symposium Starting Soon",
+      "message": "Please proceed to Dr. Premachandra Sagar Amphitheater.",
+      "severity": "INFO",
+      "targetZoneId": "ALL",
+      "createdAtMs": 1793688129279,
+      "isActive": true
+    }
+  ]
+}
