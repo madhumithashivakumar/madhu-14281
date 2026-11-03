@@ -2,11 +2,13 @@
  * @file server.js
  * @description Zero-dependency HTTP Gateway, Static Asset Server, and REST Controller for TierTracker.
  * Strictly adheres to S-Tier Engineering: Pure Node.js ESM, bounded memory, defensive I/O.
+ * Fully compatible with Vercel Serverless Functions (export default app) and local node execution.
  */
 
 import { createServer as createHttpServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
-import { resolve, join, extname, normalize, relative, isAbsolute } from 'node:path';
+import { existsSync } from 'node:fs';
+import { resolve, join, extname, normalize, relative, isAbsolute, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { AtomicFileVenueRepository } from './infra/file-repository.js';
@@ -35,15 +37,49 @@ const MIME_TYPES = Object.freeze({
 });
 
 const MAX_PAYLOAD_BYTES = 1024 * 1024; // 1MB payload ceiling
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Resolves path candidate across working directory, parent directory, and module location.
+ *
+ * @param {string|undefined} relativeOrAbsolute
+ * @param {string} defaultRelative
+ * @returns {string}
+ */
+export function resolvePathWithFallback(relativeOrAbsolute, defaultRelative) {
+  if (relativeOrAbsolute && isAbsolute(relativeOrAbsolute)) {
+    return relativeOrAbsolute;
+  }
+  const rel = relativeOrAbsolute || defaultRelative;
+  const candidates = [
+    resolve(process.cwd(), rel),
+    resolve(__dirname, '../', rel),
+    resolve(__dirname, rel),
+  ];
+  for (const c of candidates) {
+    if (existsSync(c)) return c;
+  }
+  return candidates[0];
+}
 
 /**
  * Safely parses request body with bounded payload ceiling to prevent memory exhaustion attacks.
+ * Supports both raw streams (local Node) and pre-parsed bodies (Vercel Serverless / Express).
  *
  * @param {import('node:http').IncomingMessage} req
  * @param {number} [maxBytes=MAX_PAYLOAD_BYTES]
  * @returns {Promise<any>}
  */
 async function readBoundedRequestBody(req, maxBytes = MAX_PAYLOAD_BYTES) {
+  if (req.body !== undefined && req.body !== null) {
+    if (typeof req.body === 'object') return req.body;
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return null;
+    }
+  }
+
   return new Promise((resolvePromise, rejectPromise) => {
     let bytesRead = 0;
     const chunks = [];
@@ -195,19 +231,15 @@ async function serveStaticFile(req, res, pathname, publicDir) {
 }
 
 /**
- * Factory creating the TierTracker HTTP server.
+ * Factory creating an HTTP request listener compatible with Node.js http.createServer
+ * and Vercel Serverless Function entrypoints.
  *
  * @param {Object} [options={}]
- * @param {string} [options.dbPath='data/db.json']
- * @param {string} [options.publicDir]
- * @param {number} [options.windowSec=60]
- * @param {AtomicFileVenueRepository} [options.repository]
- * @param {SlidingWindowPresenceStore} [options.presenceStore]
- * @returns {import('node:http').Server & { repository: AtomicFileVenueRepository, presenceStore: SlidingWindowPresenceStore }}
+ * @returns {((req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => Promise<void>) & Object}
  */
-export function createServer(options = {}) {
-  const dbPath = options.dbPath || 'data/db.json';
-  const publicDir = resolve(process.cwd(), options.publicDir || 'public');
+export function createRequestHandler(options = {}) {
+  const dbPath = resolvePathWithFallback(options.dbPath, 'data/db.json');
+  const publicDir = resolvePathWithFallback(options.publicDir, 'public');
   const windowSec = typeof options.windowSec === 'number' ? options.windowSec : 60;
 
   const repository = options.repository || new AtomicFileVenueRepository(dbPath);
@@ -231,7 +263,7 @@ export function createServer(options = {}) {
 
   const apiHandler = createApiHandler({ repository, presenceStore, wifiTelemetryService });
 
-  const server = createHttpServer(async (req, res) => {
+  const handler = async function app(req, res) {
     // 1. CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -246,7 +278,7 @@ export function createServer(options = {}) {
     try {
       const parsedUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
 
-      // 2. Body ingestion with bounds
+      // 2. Body ingestion with bounds (supports raw stream and pre-parsed Vercel bodies)
       let body = null;
       if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
         body = await readBoundedRequestBody(req);
@@ -287,14 +319,56 @@ export function createServer(options = {}) {
         req.destroy();
       }
     }
-  });
+  };
 
-  // Attach dependencies for direct testability
-  server.repository = repository;
-  server.presenceStore = presenceStore;
-  server.wifiTelemetryService = wifiTelemetryService;
+  handler.repository = repository;
+  handler.presenceStore = presenceStore;
+  handler.wifiTelemetryService = wifiTelemetryService;
+  handler.apiHandler = apiHandler;
+
+  return handler;
+}
+
+/**
+ * Factory creating the TierTracker HTTP server.
+ *
+ * @param {Object} [options={}]
+ * @returns {import('node:http').Server & { repository: AtomicFileVenueRepository, presenceStore: SlidingWindowPresenceStore }}
+ */
+export function createServer(options = {}) {
+  const handler = createRequestHandler(options);
+  const server = createHttpServer(handler);
+
+  server.repository = handler.repository;
+  server.presenceStore = handler.presenceStore;
+  server.wifiTelemetryService = handler.wifiTelemetryService;
+  server.apiHandler = handler.apiHandler;
 
   return server;
+}
+
+// Lazy singleton handler for Vercel Serverless Function execution
+let defaultAppInstance = null;
+function getDefaultApp() {
+  if (!defaultAppInstance) {
+    defaultAppInstance = createRequestHandler({
+      enableWifiTelemetry: true,
+    });
+  }
+  return defaultAppInstance;
+}
+
+/**
+ * Default HTTP application handler for Vercel Serverless Function deployment.
+ * Compatible with Vercel's Node.js runtime (`export default app`).
+ *
+ * @param {import('node:http').IncomingMessage} req
+ * @param {import('node:http').ServerResponse} res
+ * @returns {Promise<void>}
+ */
+export default async function app(req, res) {
+  const handler = getDefaultApp();
+  return handler(req, res);
 }
 
 /**

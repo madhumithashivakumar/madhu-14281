@@ -15,6 +15,8 @@ export class AtomicFileVenueRepository {
     this.filePath = resolve(process.cwd(), filePath);
     /** @type {Promise<any>} Mutex promise chain to serialize concurrent mutations */
     this.mutex = Promise.resolve();
+    /** @type {Object|null} In-memory fallback cache for serverless environments with read-only filesystems */
+    this._inMemoryData = null;
   }
 
   /**
@@ -56,6 +58,9 @@ export class AtomicFileVenueRepository {
    * @returns {Promise<{ events: Array<Object>, zones: Array<Object>, sessions: Array<Object>, alerts: Array<Object> }>}
    */
   async readData() {
+    if (this._inMemoryData) {
+      return this._inMemoryData;
+    }
     try {
       const raw = await readFile(this.filePath, 'utf8');
       if (!raw || !raw.trim()) {
@@ -95,7 +100,15 @@ export class AtomicFileVenueRepository {
     }
 
     const payload = JSON.stringify(data, null, 2);
-    await mkdir(dirname(this.filePath), { recursive: true });
+    try {
+      await mkdir(dirname(this.filePath), { recursive: true });
+    } catch (mkdirErr) {
+      if (mkdirErr.code === 'EROFS') {
+        this._inMemoryData = data;
+        return;
+      }
+      throw mkdirErr;
+    }
 
     const uniqueSuffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const tmpPath = `${this.filePath}.tmp.${uniqueSuffix}`;
@@ -103,7 +116,12 @@ export class AtomicFileVenueRepository {
     try {
       await writeFile(tmpPath, payload, 'utf8');
       await rename(tmpPath, this.filePath);
+      this._inMemoryData = data;
     } catch (err) {
+      if (err.code === 'EROFS') {
+        this._inMemoryData = data;
+        return;
+      }
       try {
         await rm(tmpPath, { force: true });
       } catch (cleanupErr) {

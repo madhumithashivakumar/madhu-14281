@@ -136,7 +136,11 @@ export function createApiHandler({ repository, presenceStore, wifiTelemetryServi
     // 2. GET /api/occupancy
     if (pathname === '/api/occupancy' && method === 'GET') {
       const zones = await repository.getZones();
-      const activePings = presenceStore.getActivePings();
+      let activePings = presenceStore.getActivePings();
+      if (activePings.length === 0 && wifiTelemetryService) {
+        await wifiTelemetryService.refreshTelemetry();
+        activePings = presenceStore.getActivePings();
+      }
       const zonesOccupancy = {};
 
       for (const zone of zones) {
