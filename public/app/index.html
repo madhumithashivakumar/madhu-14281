@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="theme-color" content="#0a0e17"/>
+  <title>DSU Campus Navigator - Dayananda Sagar University</title>
+
+  <!-- Typography & Icons -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN matching Stitch Tokens -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#c0c1ff",
+            "on-primary-container": "#0d0096",
+            "on-primary-fixed": "#07006c",
+            "secondary-fixed": "#6ffbbe",
+            "surface-container-high": "#262a34",
+            "surface-variant": "#31353f",
+            "on-secondary": "#003824",
+            "on-tertiary": "#472a00",
+            "background": "#0f131c",
+            "inverse-primary": "#494bd6",
+            "surface-dim": "#0f131c",
+            "error": "#ffb4ab",
+            "primary-fixed": "#e1e0ff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-tint": "#c0c1ff",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "primary": "#c0c1ff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-container": "#1c1f29",
+            "on-tertiary-container": "#3e2400",
+            "surface-bright": "#353943",
+            "secondary-container": "#00a572",
+            "secondary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#c7c4d7",
+            "tertiary": "#ffb95f",
+            "surface-container-lowest": "#0a0e17",
+            "secondary": "#4edea3",
+            "tertiary-fixed": "#ffddb8",
+            "surface-container-highest": "#31353f",
+            "on-surface": "#dfe2ef",
+            "on-background": "#dfe2ef",
+            "inverse-surface": "#dfe2ef",
+            "tertiary-container": "#ca8100",
+            "on-error-container": "#ffdad6",
+            "outline-variant": "#464554",
+            "surface-container-low": "#181b25",
+            "on-secondary-fixed-variant": "#005236",
+            "on-secondary-container": "#00311f",
+            "surface": "#0f131c",
+            "inverse-on-surface": "#2c303a",
+            "outline": "#908fa0",
+            "on-error": "#690005",
+            "on-primary": "#1000a9",
+            "error-container": "#93000a",
+            "primary-container": "#8083ff",
+            "on-secondary-fixed": "#002113",
+            "canvas": "#0a0e17",
+            "card": "#181b25",
+            "border": "#232734",
+            "borderElevated": "#334155"
+          },
+          fontFamily: {
+            "headline-xl": ["Geist", "sans-serif"],
+            "headline-lg": ["Geist", "sans-serif"],
+            "headline-md": ["Geist", "sans-serif"],
+            "headline-sm": ["Geist", "sans-serif"],
+            "body-lg": ["Geist", "sans-serif"],
+            "body-md": ["Geist", "sans-serif"],
+            "body-sm": ["Geist", "sans-serif"],
+            "label-lg": ["JetBrains Mono", "monospace"],
+            "label-md": ["JetBrains Mono", "monospace"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "sans": ["Geist", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- High-Precision Mobile Glassmorphism Styles -->
+  <link rel="stylesheet" href="/app/styles.css"/>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased h-screen w-screen overflow-hidden flex flex-col font-sans select-none relative">
+
+  <!-- ============================================================== -->
+  <!-- 1. TOP FLOATING GLASS TELEMETRY BAR (STITCH PWA HEADER)       -->
+  <!-- ============================================================== -->
+  <header class="fixed top-0 inset-x-0 z-40 pt-safe bg-[#0f131c]/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-md">
+    
+    <!-- Top Telemetry Row -->
+    <div class="h-14 px-3 flex items-center justify-between gap-1.5">
+      
+      <!-- Live Event Badge -->
+      <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container border border-outline-variant/40 shadow-sm shrink-0">
+        <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+        <span class="font-headline-sm text-[12px] font-semibold tracking-tight text-white">DSU Main Campus</span>
+        <span class="font-label-sm text-[9px] px-1 py-0.2 bg-secondary/20 text-secondary rounded font-bold uppercase">LIVE</span>
+      </div>
+
+      <!-- Indoor GPS Pill -->
+      <div id="telemetry-zone-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 max-w-[155px] truncate">
+        <span id="zone-status-dot" class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse shrink-0"></span>
+        <span class="font-label-sm text-[10.5px] text-on-surface-variant truncate">
+          Near: <strong id="telemetry-zone-name" class="text-on-surface font-medium">DSU School of Eng (Block A)</strong>
+        </span>
+      </div>
+
+      <!-- Share Live Toggle Button -->
+      <button id="btn-share-live" aria-label="Toggle Live Presence Sharing" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container border border-secondary/40 text-secondary active:scale-95 transition-transform shrink-0">
+        <span class="material-symbols-outlined text-[13px]">lock</span>
+        <span class="font-label-sm text-[10.5px] font-semibold tracking-wide">Share Live</span>
+        <span class="w-3.5 h-2 rounded-full bg-secondary/30 flex items-center p-0.5 ml-0.5">
+          <span id="share-live-dot" class="w-1.5 h-1.5 rounded-full bg-secondary ml-auto shadow-sm"></span>
+        </span>
+      </button>
+
+      <!-- GPS Accuracy & Heading Pill (Integrated Telemetry) -->
+      <div id="telemetry-gps-badge" class="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-full bg-surface-container border border-outline-variant/40 text-[10px] font-mono text-on-surface-variant">
+        <span id="gps-status-dot" class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0"></span>
+        <span id="telemetry-gps-text">GPS: ±8m</span>
+        <span class="text-outline-variant">|</span>
+        <span id="telemetry-heading-text" class="text-primary-fixed-dim">142° SE</span>
+      </div>
+    </div>
+
+    <!-- Destination Search Bar & Wayfinding Autocomplete -->
+    <div class="px-3 pb-1.5 pt-0.5 relative">
+      <div class="relative flex items-center">
+        <span class="material-symbols-outlined absolute left-2.5 text-primary text-[17px] pointer-events-none">search</span>
+        <input
+          id="destination-search-input"
+          type="text"
+          placeholder="Where do you want to go? (e.g. Food Court, SOE, Lab)..."
+          class="w-full pl-8 pr-8 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-[12px] text-white placeholder-on-surface-variant/70 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all font-sans"
+          autocomplete="off"
+        />
+        <button id="btn-clear-search" class="hidden absolute right-2 text-on-surface-variant hover:text-white p-0.5 transition-colors">
+          <span class="material-symbols-outlined text-[15px]">close</span>
+        </button>
+      </div>
+
+      <!-- Autocomplete Dropdown Menu -->
+      <div id="destination-search-dropdown" class="hidden absolute left-3 right-3 top-full mt-1 max-h-64 overflow-y-auto rounded-xl bg-[#0f131c]/95 border border-outline-variant/50 shadow-2xl backdrop-blur-xl z-50 py-1 space-y-0.5 no-scrollbar">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Real-time Turn-by-Turn Navigation HUD Banner (Wayfinding Left/Right Guidance) -->
+    <div id="navigation-hud-banner" class="hidden mx-3 mb-2 p-2.5 rounded-2xl bg-[#0f131c]/95 border border-primary/50 shadow-2xl backdrop-blur-xl text-white transition-all">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3 min-w-0">
+          <div id="hud-turn-icon-bg" class="w-10 h-10 rounded-xl bg-primary/20 border border-primary/50 flex items-center justify-center text-primary shrink-0 shadow-inner">
+            <span id="hud-turn-icon" class="material-symbols-outlined text-[24px]">turn_right</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+              <span id="hud-turn-badge" class="font-label-sm text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/40">TURN RIGHT IN 28M</span>
+              <span id="hud-eta-badge" class="font-label-sm text-[10px] text-secondary font-mono">2 min walk</span>
+            </div>
+            <p id="hud-instruction" class="font-headline-sm text-xs font-semibold text-white truncate mt-0.5">Turn Right towards Open Amphitheater</p>
+            <p id="hud-landmark" class="font-body-sm text-[10.5px] text-on-surface-variant truncate">Near Open Amphitheater Grand Steps</p>
+          </div>
+        </div>
+        <button id="btn-exit-navigation" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-error transition-colors shrink-0 ml-2" title="End Route Guidance">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Filter Pills Row beneath header -->
+    <div class="px-3 pb-2.5 pt-0.5 flex items-center gap-2 overflow-x-auto no-scrollbar">
+      <button class="filter-chip filter-pill active flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-on-primary font-headline-sm text-[12px] font-semibold shadow-md shrink-0" data-filter="all">
+        <span class="material-symbols-outlined text-[14px]">grid_view</span>
+        <span>All Campus</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-soe">
+        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+        <span>Engineering (Block A)</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-cdsimer">
+        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+        <span>CDSIMER Hospital</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-amphitheater">
+        <span class="material-symbols-outlined text-[13px] text-tertiary">theater_comedy</span>
+        <span>Amphitheater</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-sports">
+        <span class="material-symbols-outlined text-[13px] text-secondary">sports_soccer</span>
+        <span>Sports Complex</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-foodcourt">
+        <span class="material-symbols-outlined text-[13px] text-tertiary">restaurant</span>
+        <span>Food Court</span>
+      </button>
+      <button class="filter-chip filter-pill flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/90 border border-outline-variant/30 text-on-surface hover:bg-surface-container-high font-body-md text-[12px] shrink-0 transition-colors" data-filter="zone-dsu-hostels">
+        <span class="material-symbols-outlined text-[13px] text-outline">apartment</span>
+        <span>Hostels</span>
+      </button>
+    </div>
+
+    <!-- Live Broadcast Alert Banner (Shown dynamically when active alerts exist) -->
+    <div id="live-alert-banner" class="hidden mx-3 mb-2 px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 flex items-center gap-2 text-xs text-amber-200 font-medium shadow-lg backdrop-blur-sm transition-all">
+      <span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0">campaign</span>
+      <span id="live-alert-text" class="truncate flex-1 font-mono text-[11px]">Notice</span>
+      <button id="live-alert-close" class="text-amber-400 hover:text-amber-200 text-xs px-1 font-mono">✕</button>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- 2. CENTER VIEWPORT: FULL-BLEED 3D SPATIAL CANVAS              -->
+  <!-- ============================================================== -->
+  <main class="flex-1 w-full h-full relative overflow-hidden select-none bg-surface-container-lowest pt-24 pb-20">
+    
+    <!-- 3D Spatial Interactive Canvas -->
+    <canvas id="participant-canvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+
+    <!-- Floating HUD Top Center: Walk Simulation Action Chip -->
+    <div class="absolute top-[225px] inset-x-0 flex justify-center z-20 pointer-events-none px-4">
+      <button id="btn-simulate-walk" class="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full glass-pill text-xs font-semibold text-white shadow-xl hover:scale-105 active:scale-95 transition-all border border-indigo-500/40 hover:border-indigo-400">
+        <span id="simulation-icon" class="material-symbols-outlined text-[16px] text-primary-fixed-dim">directions_walk</span>
+        <span id="simulation-label">Simulate Walk: Gate 1 ➔ Engineering ➔ Amphitheater ➔ Hospital</span>
+        <span id="simulation-status-pill" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-primary/20 text-primary-fixed-dim font-bold uppercase tracking-wider">TAP</span>
+      </button>
+    </div>
+
+    <!-- Floating HUD Right Side: Map Controls -->
+    <div class="absolute right-3.5 bottom-[236px] z-20 flex flex-col gap-2 pointer-events-auto">
+      
+      <!-- Recenter Button -->
+      <button id="btn-recenter" aria-label="Recenter Map" class="w-10 h-10 rounded-full bg-[#1c1f29]/95 border border-outline-variant/40 backdrop-blur-xl shadow-2xl flex items-center justify-center text-primary hover:bg-surface-bright active:scale-90 transition-all" title="Recenter to My Location">
+        <span class="material-symbols-outlined text-[20px]">my_location</span>
+      </button>
+
+      <!-- 3D / 2D Tilt Toggle -->
+      <button id="btn-tilt" aria-label="Toggle 3D Angle" class="w-10 h-10 rounded-full bg-[#1c1f29]/95 border border-outline-variant/40 backdrop-blur-xl shadow-2xl flex items-center justify-center font-label-md text-[11px] font-semibold text-white hover:bg-surface-bright active:scale-90 transition-all" title="Toggle 3D Pitch Angle">
+        <span id="tilt-label">55°</span>
+      </button>
+
+      <!-- Compass North Reset -->
+      <button id="btn-compass" aria-label="Reset North" class="w-10 h-10 rounded-full bg-[#1c1f29]/95 border border-outline-variant/40 backdrop-blur-xl shadow-2xl flex items-center justify-center text-error hover:bg-surface-bright active:scale-90 transition-all" title="Reset North Facing">
+        <span class="material-symbols-outlined text-[20px] transition-transform duration-300" id="compass-icon">explore</span>
+      </button>
+    </div>
+
+    <!-- Floating HUD Left Bottom: Live Venue Legend & ETA -->
+    <div class="absolute left-3.5 bottom-[236px] z-20 flex flex-col gap-1.5 pointer-events-none">
+      <div class="pointer-events-auto px-2.5 py-1 rounded-lg glass-pill text-[10px] font-mono text-on-surface-variant flex items-center gap-2 border border-outline-variant/30">
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span><span>&lt;40%</span></div>
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span>40-89%</span></div>
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-error"></span><span>&ge;90%</span></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- 3. DRAGGABLE COLLAPSIBLE BOTTOM SHEET (STITCH HALF-EXPANDED)   -->
+  <!-- ============================================================== -->
+  <section id="bottom-sheet" class="bottom-sheet fixed inset-x-0 z-30 w-full bg-[#181b25] border-t border-outline-variant/30 rounded-t-3xl shadow-2xl flex flex-col overflow-hidden max-h-[75vh]" style="height: 140px;">
+    
+    <!-- Drag Pill Handle -->
+    <div id="bottom-sheet-handle" class="w-full pt-2.5 pb-1 flex justify-center cursor-grab active:cursor-grabbing shrink-0 touch-none">
+      <div class="w-10 h-1.5 rounded-full bg-outline/40 hover:bg-outline/60 transition-colors"></div>
+    </div>
+
+    <!-- Collapsed Header Strip (Always Visible: 'Happening Right Now') -->
+    <div id="bottom-sheet-header" class="px-4 pb-2.5 flex flex-col gap-1.5 cursor-pointer shrink-0 border-b border-outline-variant/20">
+      
+      <!-- Top Meta Row -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <!-- Live Badge -->
+          <span class="font-label-sm text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-secondary-container text-white flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            Happening Right Now
+          </span>
+          <!-- Countdown -->
+          <span id="session-countdown" class="font-label-sm text-[11px] text-on-surface-variant flex items-center gap-1">
+            <span class="material-symbols-outlined text-[13px] text-secondary">timer</span>
+            <span id="session-countdown-text">24m remaining</span>
+          </span>
+        </div>
+
+        <!-- Chevron Toggle -->
+        <button id="btn-toggle-sheet" aria-label="Toggle Sheet Height" class="text-on-surface-variant hover:text-white transition-transform">
+          <span id="sheet-chevron-icon" class="material-symbols-outlined text-[20px] transition-transform duration-300">expand_less</span>
+        </button>
+      </div>
+
+      <!-- Session Title & Stage Row -->
+      <div class="flex items-start justify-between gap-3 mt-0.5">
+        <div class="min-w-0 flex-1">
+          <h2 id="sheet-session-title" class="font-headline-sm text-[14px] font-semibold text-white tracking-tight truncate leading-tight">
+            Advanced AI &amp; Robotics Symposium
+          </h2>
+          <p id="sheet-session-speaker" class="font-body-sm text-[12px] text-on-surface-variant truncate mt-0.5">
+            DSU School of Eng (Block A) • Dr. Ramesh Kumar
+          </p>
+        </div>
+
+        <!-- Capacity Indicator Mini Meter -->
+        <div class="flex flex-col items-end shrink-0">
+          <span id="sheet-density-pill" class="font-label-sm text-[10.5px] text-secondary font-semibold flex items-center gap-1">
+            <span id="density-dot" class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            <span id="density-text">65% Capacity</span>
+          </span>
+          <div class="w-20 h-1.5 rounded-full bg-surface-container-highest overflow-hidden mt-1">
+            <div id="capacity-meter-bar" class="h-full bg-secondary rounded-full transition-all duration-500" style="width: 65%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs Strip: [Live Now], [Today's Schedule], [Directions 🗺️], [Rate (⭐)] -->
+    <div class="px-4 py-2 border-b border-outline-variant/20 shrink-0">
+      <div class="flex p-1 rounded-xl bg-surface-container-lowest gap-1">
+        <button id="tab-btn-live" class="sheet-tab-btn flex-1 py-1.5 rounded-lg bg-surface-container-high text-white font-headline-sm text-[11px] font-semibold text-center shadow-sm transition-all">
+          Live Now
+        </button>
+        <button id="tab-btn-schedule" class="sheet-tab-btn flex-1 py-1.5 rounded-lg text-on-surface-variant hover:text-white font-body-md text-[11px] text-center transition-all">
+          Schedule
+        </button>
+        <button id="tab-btn-directions" class="sheet-tab-btn flex-1 py-1.5 rounded-lg text-on-surface-variant hover:text-white font-body-md text-[11px] text-center transition-all flex items-center justify-center gap-1">
+          <span class="material-symbols-outlined text-[13px] text-primary">directions</span>
+          <span>Directions</span>
+        </button>
+        <button id="tab-btn-rate" class="sheet-tab-btn flex-1 py-1.5 rounded-lg text-on-surface-variant hover:text-white font-body-md text-[11px] text-center transition-all flex items-center justify-center gap-1">
+          <span>Rate</span>
+          <span class="text-tertiary">⭐</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Expanded Sheet Body (Scrollable Tab Views) -->
+    <div id="bottom-sheet-content" class="flex-1 overflow-y-auto px-4 pb-6 pt-2 space-y-4 no-scrollbar">
+      
+      <!-- ========================================== -->
+      <!-- VIEW 1: LIVE NOW TAB CONTENT               -->
+      <!-- ========================================== -->
+      <div id="sheet-view-live" class="space-y-3">
+        <!-- Live Timeline Progress Bar Card -->
+        <div class="p-3 rounded-xl bg-surface-container border border-outline-variant/30 space-y-2">
+          <div class="flex items-center justify-between text-[11px] font-mono">
+            <span class="text-on-surface-variant">TIMELINE PROGRESS</span>
+            <span id="timeline-time-span" class="text-primary font-semibold">10:00 AM - 11:00 AM</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden border border-outline-variant/20">
+            <div id="session-progress-bar" class="h-full bg-gradient-to-r from-primary-container to-secondary rounded-full transition-all duration-300" style="width: 63%;"></div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] font-mono text-outline">
+            <span>Started 38m ago</span>
+            <span class="text-secondary font-medium">63% Completed</span>
+            <span id="timeline-remaining">22m remaining</span>
+          </div>
+        </div>
+
+        <!-- Current Session Quick Action Card -->
+        <div class="p-3 rounded-xl bg-surface-container border border-outline-variant/30 flex items-center justify-between gap-2">
+          <span class="font-label-sm text-[10.5px] text-secondary font-medium flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">event_seat</span> Plentiful Seating Available
+          </span>
+          <button id="btn-sheet-locate-live" class="px-3 py-1.5 rounded-lg bg-primary-container text-white font-label-sm text-[11px] font-semibold flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform">
+            <span class="material-symbols-outlined text-[14px]">travel_explore</span> Locate on 3D Map
+          </button>
+        </div>
+
+        <!-- Upcoming Sessions in This Zone -->
+        <div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/30 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">calendar_month</span>
+              <span class="text-xs font-semibold text-white">Upcoming in this Zone</span>
+            </div>
+            <span class="text-[10px] font-mono text-on-surface-variant" id="upcoming-zone-tag">DSU School of Engineering</span>
+          </div>
+
+          <!-- Dynamic Timeline List -->
+          <div class="space-y-2" id="upcoming-sessions-list">
+            <!-- Rendered dynamically via app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: TODAY'S SCHEDULE TAB CONTENT       -->
+      <!-- ========================================== -->
+      <div id="sheet-view-schedule" class="space-y-2.5 hidden">
+        <div class="flex items-center justify-between pb-1">
+          <span class="font-headline-sm text-xs font-semibold text-white">Full Event Schedule</span>
+          <span class="font-label-sm text-[10px] text-secondary">All Active Stages</span>
+        </div>
+        <div class="space-y-2" id="sheet-schedule-list">
+          <!-- Rendered dynamically via app.js -->
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 3: RATE SESSION TAB CONTENT           -->
+      <!-- ========================================== -->
+      <div id="sheet-view-rate" class="space-y-3.5 hidden">
+        <!-- Interactive 5-Star Rating Component -->
+        <div id="rating-section" class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-tertiary text-[18px]">hotel_class</span>
+              <span class="text-xs font-semibold text-white">Rate Current Session</span>
+            </div>
+            <span id="rating-label" class="text-[11px] font-mono font-medium text-tertiary">Tap stars to rate</span>
+          </div>
+
+          <!-- 5 Interactive Clickable Stars (Stitch Star Component) -->
+          <div class="flex items-center justify-center gap-2 py-1" id="star-rating-group">
+            <button class="star-btn star-empty text-outline-variant hover:text-tertiary" data-star="1" aria-label="1 Star">
+              <span class="material-symbols-outlined text-[28px]">star</span>
+            </button>
+            <button class="star-btn star-empty text-outline-variant hover:text-tertiary" data-star="2" aria-label="2 Stars">
+              <span class="material-symbols-outlined text-[28px]">star</span>
+            </button>
+            <button class="star-btn star-empty text-outline-variant hover:text-tertiary" data-star="3" aria-label="3 Stars">
+              <span class="material-symbols-outlined text-[28px]">star</span>
+            </button>
+            <button class="star-btn star-empty text-outline-variant hover:text-tertiary" data-star="4" aria-label="4 Stars">
+              <span class="material-symbols-outlined text-[28px]">star</span>
+            </button>
+            <button class="star-btn star-empty text-outline-variant hover:text-tertiary" data-star="5" aria-label="5 Stars">
+              <span class="material-symbols-outlined text-[28px]">star</span>
+            </button>
+          </div>
+
+          <!-- Quick Feedback Tag Chips (Stitch Style) -->
+          <div class="space-y-1.5">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-outline block">Quick Feedback Tags</span>
+            <div class="flex flex-wrap gap-1.5" id="feedback-chips-group">
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="✨ Inspiring">
+                ✨ Inspiring
+              </button>
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="🔊 Great Audio">
+                🔊 Great Audio
+              </button>
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="📊 Clear Slides">
+                📊 Clear Slides
+              </button>
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="🔥 Packed Room">
+                🔥 Packed Room
+              </button>
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="💬 Great Q&amp;A">
+                💬 Great Q&amp;A
+              </button>
+              <button class="feedback-chip px-2.5 py-1 rounded-full text-[11px] font-medium" data-tag="❄️ Too Cold">
+                ❄️ Too Cold
+              </button>
+            </div>
+          </div>
+
+          <!-- Optional Review Comment -->
+          <div>
+            <textarea id="rating-comment-input" rows="2" placeholder="Optional comments for speaker and organizers..." class="w-full px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 text-xs text-white placeholder-outline focus:outline-none focus:border-primary transition-colors"></textarea>
+          </div>
+
+          <!-- Submit Review Button -->
+          <button id="btn-submit-review" class="w-full py-2.5 px-4 rounded-xl bg-primary-container hover:bg-primary active:scale-[0.98] text-white text-xs font-semibold shadow-lg flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-[16px]">send</span>
+            <span id="btn-submit-review-text">Submit Review</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 4: DIRECTIONS & TURNS TAB CONTENT      -->
+      <!-- ========================================== -->
+      <div id="sheet-view-directions" class="space-y-3 hidden">
+        <!-- Destination Summary Card -->
+        <div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-primary text-[20px] shrink-0">route</span>
+              <div class="min-w-0">
+                <span class="text-[9.5px] font-mono text-primary uppercase tracking-wider block">Target Destination</span>
+                <h3 id="directions-dest-name" class="text-xs font-bold text-white truncate">Select a destination above</h3>
+              </div>
+            </div>
+            <span id="directions-total-summary" class="font-label-sm text-[10.5px] font-mono text-secondary font-bold px-2 py-0.5 rounded bg-secondary/10 border border-secondary/30 shrink-0">
+              -- m • -- min
+            </span>
+          </div>
+        </div>
+
+        <!-- Turn-by-Turn Instruction Steps Container -->
+        <div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/30 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-outline-variant/20 pb-2">
+            <span class="text-xs font-semibold text-white flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-primary">signpost</span>
+              Turn-by-Turn Walking Steps
+            </span>
+            <span id="directions-steps-count" class="text-[10px] font-mono text-on-surface-variant">0 Steps</span>
+          </div>
+
+          <div id="directions-steps-list" class="space-y-2 pt-0.5">
+            <div class="text-center py-6 px-4 space-y-2">
+              <span class="material-symbols-outlined text-[32px] text-on-surface-variant/40">explore</span>
+              <p class="text-xs text-on-surface-variant">Use the search bar above or tap any zone to compute turn-by-turn walking directions with exact Left & Right indications.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- 4. BOTTOM THUMB DOCK NAVIGATION (STITCH FIXED TAB BAR)        -->
+  <!-- ============================================================== -->
+  <nav id="bottom-nav-dock" class="fixed bottom-0 inset-x-0 z-[60] pb-safe bg-[#0f131c]/95 backdrop-blur-xl border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.5)]">
+    <div class="flex justify-around items-center h-16 px-2">
+      
+      <!-- Tab 1: Map View (Active Default) -->
+      <button class="nav-tab active flex flex-col items-center justify-center min-w-[56px] py-1 text-primary font-medium group transition-colors" data-tab="map">
+        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mb-0.5 group-hover:bg-primary/20">
+          <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+        </div>
+        <span class="font-label-sm text-[10.5px] tracking-tight">Map View</span>
+      </button>
+
+      <!-- Tab 2: Zones -->
+      <button class="nav-tab flex flex-col items-center justify-center min-w-[56px] py-1 text-on-surface-variant hover:text-white group transition-colors" data-tab="zones">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center mb-0.5 group-hover:bg-surface-container">
+          <span class="material-symbols-outlined text-[20px]">layers</span>
+        </div>
+        <span class="font-label-sm text-[10.5px] tracking-tight">Zones</span>
+      </button>
+
+      <!-- Tab 3: Schedule -->
+      <button class="nav-tab flex flex-col items-center justify-center min-w-[56px] py-1 text-on-surface-variant hover:text-white group transition-colors" data-tab="schedule">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center mb-0.5 group-hover:bg-surface-container">
+          <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+        </div>
+        <span class="font-label-sm text-[10.5px] tracking-tight">Schedule</span>
+      </button>
+
+      <!-- Tab 4: Pass / Profile -->
+      <button class="nav-tab flex flex-col items-center justify-center min-w-[56px] py-1 text-on-surface-variant hover:text-white group transition-colors" data-tab="pass">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center mb-0.5 group-hover:bg-surface-container">
+          <span class="material-symbols-outlined text-[20px]">badge</span>
+        </div>
+        <span class="font-label-sm text-[10.5px] tracking-tight">Pass</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- 5. MODAL OVERLAYS (SCHEDULE / ZONES / PASS)                    -->
+  <!-- ============================================================== -->
+  
+  <!-- Schedule Modal -->
+  <div id="modal-schedule" class="hidden fixed inset-x-0 top-0 bottom-16 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex flex-col pt-safe px-4">
+    <div class="h-14 flex items-center justify-between border-b border-outline-variant/30">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+        <h3 class="text-sm font-semibold text-white">Campus Academic Schedule</h3>
+      </div>
+      <button class="btn-close-modal p-1.5 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-white" data-modal="modal-schedule">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+    <div id="schedule-list-container" class="flex-1 overflow-y-auto py-3 space-y-2.5 no-scrollbar">
+      <!-- Injected dynamically -->
+    </div>
+  </div>
+
+  <!-- Zones Overview Modal -->
+  <div id="modal-zones" class="hidden fixed inset-x-0 top-0 bottom-16 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex flex-col pt-safe px-4">
+    <div class="h-14 flex items-center justify-between border-b border-outline-variant/30">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+        <h3 class="text-sm font-semibold text-white">DSU Campus Facilities &amp; Density</h3>
+      </div>
+      <button class="btn-close-modal p-1.5 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-white" data-modal="modal-zones">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+    <div id="zones-list-container" class="flex-1 overflow-y-auto py-3 space-y-2.5 no-scrollbar">
+      <!-- Injected dynamically -->
+    </div>
+  </div>
+
+  <!-- Digital Badge Pass Modal -->
+  <div id="modal-pass" class="hidden fixed inset-x-0 top-0 bottom-16 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex flex-col justify-center items-center pt-safe px-6">
+    <div class="w-full max-w-sm rounded-2xl bg-surface-container-low border border-outline-variant/40 p-5 shadow-2xl relative space-y-4">
+      <button class="btn-close-modal absolute top-3 right-3 text-on-surface-variant hover:text-white" data-modal="modal-pass">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+      
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-3">
+        <div class="w-10 h-10 rounded-xl bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[22px]">badge</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-mono text-primary uppercase tracking-wider block">Student &amp; Faculty Pass</span>
+          <h4 class="text-sm font-bold text-white">Dayananda Sagar University</h4>
+        </div>
+      </div>
+
+      <!-- QR Representation -->
+      <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col items-center justify-center space-y-2">
+        <div class="w-36 h-36 bg-white rounded-lg p-2 flex items-center justify-center">
+          <svg viewBox="0 0 100 100" class="w-full h-full text-black" fill="currentColor">
+            <rect width="100" height="100" fill="white"/>
+            <path d="M10 10h30v30h-30z M15 15h20v20h-20z M20 20h10v10h-10z M60 10h30v30h-30z M65 15h20v20h-20z M70 20h10v10h-10z M10 60h30v30h-30z M15 65h20v20h-20z M20 70h10v10h-10z M50 15h5v5h-5z M50 30h5v15h-5z M65 60h10v10h-10z M80 65h10v20h-10z M50 70h10v10h-10z M50 85h20v5h-20z" fill="#000"/>
+          </svg>
+        </div>
+        <span id="pass-uid-display" class="text-[10.5px] font-mono text-on-surface-variant">DSU-STU-2026-8841</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+        <div class="p-2 rounded-lg bg-surface-container border border-outline-variant/20">
+          <span class="text-outline text-[9px] block">TIER</span>
+          <span class="text-secondary font-semibold">CAMPUS ACCESS</span>
+        </div>
+        <div class="p-2 rounded-lg bg-surface-container border border-outline-variant/20">
+          <span class="text-outline text-[9px] block">CHECK-IN</span>
+          <span class="text-white font-semibold">VERIFIED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="participant-toast-container" class="fixed top-20 inset-x-4 z-50 flex flex-col gap-2 items-center pointer-events-none"></div>
+
+  <!-- Application Logic ES Module -->
+  <script type="module" src="/app/app.js"></script>
+</body>
+</html>
