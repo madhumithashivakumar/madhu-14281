@@ -733,6 +733,24 @@ describe('Infrastructure: API Gateway & HTTP Server Integration', () => {
     assert.equal(adminRes.status, 200);
     assert.match(adminRes.headers.get('content-type'), /text\/html/);
 
+    const appRes = await fetch(`${baseUrl}/app`);
+    assert.equal(appRes.status, 200);
+    assert.match(appRes.headers.get('content-type'), /text\/html/);
+    const appHtml = await appRes.text();
+    assert.match(appHtml, /DSU Campus Navigator/);
+
+    const appSlashRes = await fetch(`${baseUrl}/app/`);
+    assert.equal(appSlashRes.status, 200);
+    assert.match(appSlashRes.headers.get('content-type'), /text\/html/);
+
+    const studentRes = await fetch(`${baseUrl}/student`);
+    assert.equal(studentRes.status, 200);
+    assert.match(studentRes.headers.get('content-type'), /text\/html/);
+
+    const mobileRes = await fetch(`${baseUrl}/mobile`);
+    assert.equal(mobileRes.status, 200);
+    assert.match(mobileRes.headers.get('content-type'), /text\/html/);
+
     const traversalRes = await fetch(`${baseUrl}/../../../../etc/passwd`);
     assert.ok(traversalRes.status === 403 || traversalRes.status === 404);
 

@@ -14,6 +14,34 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/app(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/admin(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/student(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/mobile(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/navigator(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
+      "src": "/participant(.*)",
+      "dest": "src/server.mjs"
+    },
+    {
       "src": "/(.*)",
       "dest": "src/server.mjs"
     }

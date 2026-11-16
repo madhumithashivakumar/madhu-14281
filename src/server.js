@@ -153,18 +153,6 @@ async function serveStaticFile(req, res, pathname, publicDir) {
 
   let relativePath = decodedPath;
 
-  // Trailing slash redirect for base routes
-  if (relativePath === '/admin') {
-    res.writeHead(301, { Location: '/admin/', 'Cache-Control': 'no-cache' });
-    res.end();
-    return true;
-  }
-  if (relativePath === '/app') {
-    res.writeHead(301, { Location: '/app/', 'Cache-Control': 'no-cache' });
-    res.end();
-    return true;
-  }
-
   // Route alias mappings
   if (relativePath === '/favicon.ico' || relativePath === '/favicon.svg') {
     const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#6366f1"/><path d="M16 6 L26 12 L16 18 L6 12 Z M6 15 L16 21 L26 15 M6 20 L16 26 L26 20" stroke="#ffffff" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>`;
@@ -173,19 +161,38 @@ async function serveStaticFile(req, res, pathname, publicDir) {
     return true;
   }
 
-  if (relativePath === '/' || relativePath === '') {
-    relativePath = '/admin/index.html';
-  } else if (relativePath === '/admin/') {
-    relativePath = '/admin/index.html';
-  } else if (relativePath === '/app/') {
+  // Direct route resolution without redirects (guarantees instant loading on Vercel and mobile networks)
+  if (
+    relativePath === '/app' ||
+    relativePath === '/app/' ||
+    relativePath === '/student' ||
+    relativePath === '/student/' ||
+    relativePath === '/mobile' ||
+    relativePath === '/mobile/' ||
+    relativePath === '/navigator' ||
+    relativePath === '/navigator/' ||
+    relativePath === '/participant' ||
+    relativePath === '/participant/'
+  ) {
     relativePath = '/app/index.html';
+  } else if (
+    relativePath === '/' ||
+    relativePath === '' ||
+    relativePath === '/admin' ||
+    relativePath === '/admin/' ||
+    relativePath === '/ops' ||
+    relativePath === '/ops/'
+  ) {
+    relativePath = '/admin/index.html';
   } else if (relativePath === '/admin.js') {
     relativePath = '/admin/admin.js';
   } else if (relativePath === '/app.js') {
     relativePath = '/app/app.js';
   } else if (relativePath === '/styles.css') {
     const referer = req.headers.referer || '';
-    relativePath = referer.includes('/app') ? '/app/styles.css' : '/admin/styles.css';
+    relativePath = (referer.includes('/app') || referer.includes('/student') || referer.includes('/mobile'))
+      ? '/app/styles.css'
+      : '/admin/styles.css';
   }
 
   // Canonical path resolution and strict directory jail verification
